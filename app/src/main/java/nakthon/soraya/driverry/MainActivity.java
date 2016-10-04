@@ -8,10 +8,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -95,6 +99,52 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(s);
 
             Log.d("DriverV1", "Json ==>" + s);
+
+            try {
+
+                boolean status = true;
+                MyConstant myConstant = new MyConstant();
+                String[] columnStrings = myConstant.getUserStrings();
+                String[] loginStrings = new String[columnStrings.length];
+
+                JSONArray jsonArray = new JSONArray(s);
+                for (int i = 0; i < jsonArray.length(); i+=1) {
+
+                   JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    if (userString.equals(jsonObject.getString(columnStrings[1]))) {
+
+                        status = false;
+                        for (int i1=0;i1<columnStrings.length;i1+=1 ) {
+
+                            loginStrings[i1] = jsonObject.getString(columnStrings[i1]);
+
+                        } //for
+
+                    } //if
+
+                }//for
+
+                //Check User
+                if (status){
+                    //User False
+                    MyAlert myAlert = new MyAlert(context, R.drawable.doremon48,
+                            "User False", "ไม่มี" + userString + "ในฐานข้อมูลของเรา");
+                    myAlert.myDialog();
+                } else if (!passwordString.equals(loginStrings[2])) {
+                    // Password False
+                    MyAlert myAlert = new MyAlert(context, R.drawable.nobita48,
+                            "Password False", "Please Try Again Password False");
+                    myAlert.myDialog();
+                } else {
+                    // Password True
+                    Toast.makeText(context,"Welcome" + loginStrings[3],
+                            Toast.LENGTH_SHORT).show();
+                }
+
+
+            } catch (Exception e) {
+                Log.d("DriverV1", "e onPost ==>" + e.toString());
+            }
 
         } // onPost
 
