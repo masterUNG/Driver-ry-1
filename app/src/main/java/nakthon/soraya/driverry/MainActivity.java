@@ -1,6 +1,7 @@
 package nakthon.soraya.driverry;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -139,6 +140,12 @@ public class MainActivity extends AppCompatActivity {
                     // Password True
                     Toast.makeText(context,"Welcome" + loginStrings[3],
                             Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(MainActivity.this, ServiceActivity.class);
+                    intent.putExtra("Login", loginStrings);
+                    startActivity(intent);
+                    finish();
+
                 }
 
 

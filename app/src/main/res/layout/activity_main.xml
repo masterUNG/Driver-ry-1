@@ -41,7 +41,7 @@
         <ImageView
             android:layout_width="@dimen/icon"
             android:layout_height="@dimen/icon"
-            app:srcCompat="@drawable/logo_bmi_master"
+            android:src="@drawable/logo_bmi_master"
             android:id="@+id/imageView" />
 
         <TextView
@@ -58,11 +58,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="Name"
             android:ems="10"
             android:id="@+id/editText2"
             android:textColor="@color/aText"
-            android:textColorHint="@color/aText" />
+            android:textColorHint="@color/aText"
+            android:hint="User" />
 
         <EditText
             android:layout_width="match_parent"
