@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Driver Easy</string>
     <string name="title_activity_service">Map</string>
+
+    <string name="onside">ถึงที่รับ</string>
+
 </resources>
