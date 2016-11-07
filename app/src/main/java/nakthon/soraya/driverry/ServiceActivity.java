@@ -21,6 +21,9 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class ServiceActivity extends FragmentActivity implements OnMapReadyCallback {
     //Explicit
     private GoogleMap mMap;
@@ -29,6 +32,7 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
     private Button button;
     private String[] loginStrings;
     private MyConstant myConstant;
+    private String[] jobString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,9 +105,79 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
 
             Log.d("7novV1", "Result ==>" + s);
 
+            try {
+
+                JSONArray jsonArray = new JSONArray(s);
+
+                String[] columnStrings = myConstant.getJobStrings();
+
+                jobString = new String[columnStrings.length];
+
+                for (int i = 0; i < columnStrings.length; i++) {
+
+                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+                    jobString[i] = jsonObject.getString(columnStrings[i]);
+                    Log.d("7novV2", "jobString(" + i + ") ==> " + jobString[i]);
+
+                }   // for
+
+                //Show Text
+                GetPassenger getPassenger = new GetPassenger(context, jobString);
+                getPassenger.execute(myConstant.getUrlGetPassengerWhereID());
+
+
+
+
+            }catch (Exception e){
+                Log.d("7novV2", "e ==>" + e.toString());
+            }
+
         }   // onPost
 
     }   //GetJob Class
+
+
+    private class GetPassenger extends AsyncTask<String, Void, String> {
+
+        //Explicit
+        private Context context;
+        private String[] resultStrings;
+
+        public GetPassenger(Context context, String[] resultStrings) {
+            this.context = context;
+            this.resultStrings = resultStrings;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            try {
+
+                OkHttpClient okHttpClient = new OkHttpClient();
+                RequestBody requestBody = new FormEncodingBuilder()
+                        .add("isAdd", "true")
+                        .add("id", resultStrings[1])
+                        .build();
+                Request.Builder builder = new Request.Builder();
+                Request request = builder.url(strings[0]).post(requestBody).build();
+                Response response = okHttpClient.newCall(request).execute();
+                return response.body().string();
+
+            } catch ( Exception e){
+                Log.d("7novV3", "e ==>" + e.toString());
+                return null;
+            }
+
+        }   //doInBack
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.d("7novV3", "Passenger ==>" + s);
+
+        }   // onPost
+    } // GetPassenger Class
+
 
 
 
