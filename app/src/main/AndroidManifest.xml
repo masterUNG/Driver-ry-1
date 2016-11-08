@@ -11,8 +11,8 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICE" />
 
     <application
         android:allowBackup="true"
@@ -41,7 +41,8 @@
 
         <activity
             android:name=".ServiceActivity"
-            android:label="@string/title_activity_service"></activity>
+            android:label="@string/title_activity_service" />
+        <activity android:name=".PhotoActivity"></activity>
     </application>
 
 </manifest>

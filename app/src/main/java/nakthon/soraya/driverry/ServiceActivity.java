@@ -1,5 +1,6 @@
 package nakthon.soraya.driverry;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Criteria;
@@ -8,6 +9,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +37,8 @@ import com.squareup.okhttp.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Calendar;
+
 public class ServiceActivity extends FragmentActivity implements OnMapReadyCallback {
     //Explicit
     private GoogleMap mMap;
@@ -48,6 +53,9 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
     private Criteria criteria;
     private  double latADouble, lngADouble;
     private LatLng latLng;
+    private int hourWaitStartAnInt, minusWaitStartInt,
+            hourWaitEndAnInt, minusWaitEndAnInt;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +68,7 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
         dateTextView = (TextView) findViewById(R.id.textView5);
         timeTextView = (TextView) findViewById(R.id.textView6);
         imageView = (ImageView) findViewById(R.id.imageView2);
-        button = (Button) findViewById(R.id.button2);
+        button = (Button) findViewById(R.id.button4);
 
         //Get Value From Intent
         loginStrings = getIntent().getStringArrayExtra("Login");
@@ -87,7 +95,40 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
         mapFragment.getMapAsync(this);
 
 
+        //Button Controller
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //Post Delay
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        //Get Time WaitStart
+                        Calendar calendar = Calendar.getInstance();
+                        hourWaitStartAnInt = calendar.get(Calendar.HOUR_OF_DAY);
+                        minusWaitStartInt = calendar.get(Calendar.MINUTE);
+                        Log.d("8novV3", "HrStarts ==>" + hourWaitStartAnInt);
+                        Log.d("8novV3", "MinStart ==>" + minusWaitStartInt);
+
+
+                    }   // run
+                }, 60000);
+
+                //Intent to PhotoActivity
+                Intent intent = new Intent(ServiceActivity.this, PhotoActivity.class);
+                startActivity(intent);
+
+
+
+            }   //onClick
+        });
+
+
     }   //Main Method
+
 
     @Override
     protected void onResume() {
