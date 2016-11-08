@@ -1,10 +1,17 @@
 package nakthon.soraya.driverry;
 
 import android.content.Context;
+import android.content.Intent;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,6 +41,9 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
     private MyConstant myConstant;
     private String[] jobString;
     private String phoneString;
+    private LocationManager locationManager;
+    private Criteria criteria;
+    private  double latADouble, lngADouble;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +68,15 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
         getJob.execute(myConstant.getUrlGetJobWhereID());
 
 
+        //Setup For Get Location
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setAltitudeRequired(false);
+        criteria.setBearingRequired(false);
+
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -65,6 +84,78 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
 
 
     }   //Main Method
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //FOr Find Location by Network
+        Location networkLocation = myFindLocation(LocationManager.NETWORK_PROVIDER);
+        if (networkLocation != null) {
+            latADouble = networkLocation.getLatitude();
+            lngADouble = networkLocation.getLongitude();
+
+        }
+
+        //For find Location by GPS
+        Location gpsLocation = myFindLocation(LocationManager.GPS_PROVIDER);
+        if (gpsLocation != null) {
+            latADouble = gpsLocation.getLatitude();
+            lngADouble = gpsLocation.getLongitude();
+
+        }
+
+        Log.d("8novV1", "Lat ==> " + latADouble);
+        Log.d("8novV1", "lug ==> " + lngADouble);
+
+    }   // onResume
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        locationManager.removeUpdates(locationListener);
+
+    }
+
+    public Location myFindLocation(String strProvider) {
+
+        Location location = null;
+
+        if (locationManager.isProviderEnabled(strProvider)) {
+
+            locationManager.requestLocationUpdates(strProvider, 1000, 10, locationListener);
+            location = locationManager.getLastKnownLocation(strProvider);
+        }
+
+        return location;
+    }
+
+    public LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+
+            latADouble = location.getLatitude();
+            lngADouble = location.getLongitude();
+
+        }   //onLocationChange
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+
+        }
+    };
+
 
     private class GetJob extends AsyncTask<String, Void, String> {
 
@@ -187,7 +278,17 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
                 dateTextView.setText("วันที่ไปรัย = " + jobString[4]);
                 timeTextView.setText("เวลาที่ไปรับ = " + jobString [5]);
 
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.d("7novV3", "ClickPhone = " + phoneString);
 
+                        Intent intent = new Intent(Intent.ACTION_CALL);
+                        intent.setData(Uri.parse("tel:=" + phoneString));
+                        startActivity(intent);
+
+                    }   //onClick
+                });
 
             } catch (Exception e) {
                 Log.d("7novV3", "e onPost ==> " + e.toString());
