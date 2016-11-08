@@ -33,6 +33,7 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
     private String[] loginStrings;
     private MyConstant myConstant;
     private String[] jobString;
+    private String phoneString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,6 +175,24 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.d("7novV3", "Passenger ==>" + s);
+
+            try {
+
+                JSONArray jsonArray = new JSONArray(s);
+                JSONObject jsonObject = jsonArray.getJSONObject(0);
+
+                nameTextView.setText(jsonObject.getString("Name"));
+                phoneString = jsonObject.getString("Phone");
+                phoneTextView.setText("Phone = " + phoneString);
+                dateTextView.setText("วันที่ไปรัย = " + jobString[4]);
+                timeTextView.setText("เวลาที่ไปรับ = " + jobString [5]);
+
+
+
+            } catch (Exception e) {
+                Log.d("7novV3", "e onPost ==> " + e.toString());
+            }
+
 
         }   // onPost
     } // GetPassenger Class
