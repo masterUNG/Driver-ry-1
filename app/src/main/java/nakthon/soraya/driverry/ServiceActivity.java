@@ -15,12 +15,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -44,6 +47,7 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
     private LocationManager locationManager;
     private Criteria criteria;
     private  double latADouble, lngADouble;
+    private LatLng latLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,6 +217,21 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
 
                 }   // for
 
+                //Create Marker Start
+                LatLng startLatlng = new LatLng(Double.parseDouble(jobString[7]),
+                        Double.parseDouble(jobString[8]));
+                mMap.addMarker(new MarkerOptions()
+                        .position(startLatlng)
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.nobita48)));
+
+                //Create Marker End
+                LatLng endlatLng = new LatLng(Double.parseDouble(jobString[10]),
+                Double.parseDouble(jobString[11]));
+                mMap.addMarker(new MarkerOptions()
+                        .position(endlatLng)
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.bird48)));
+
+
                 //Show Text
                 GetPassenger getPassenger = new GetPassenger(context, jobString);
                 getPassenger.execute(myConstant.getUrlGetPassengerWhereID());
@@ -305,10 +324,25 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+           try {
+
+               latLng = new LatLng(latADouble, lngADouble);
+               mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+
+               //Create Marker Driver
+               mMap.addMarker(new MarkerOptions()
+                       .position(latLng)
+                       .icon(BitmapDescriptorFactory.fromResource(R.drawable.doremon48)));
+
+
+
+           } catch (Exception e) {
+               Toast.makeText(ServiceActivity.this, "ไม่สามารถหาพิกัด", Toast.LENGTH_SHORT).show();
+
+           }
+
+
+
     }  //onMapReady
 
 }  //Main Class
