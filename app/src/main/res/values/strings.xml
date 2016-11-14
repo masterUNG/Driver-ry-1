@@ -3,5 +3,7 @@
     <string name="title_activity_service">Map</string>
 
     <string name="onside">ถึงที่รับ</string>
+    <string name="meter">ค่าโดยสาร</string>
+    <string name="confirm">ยืนยันคัวเลข</string>
 
 </resources>
