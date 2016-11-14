@@ -55,6 +55,9 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
     private LatLng latLng;
     private int hourWaitStartAnInt, minusWaitStartInt,
             hourWaitEndAnInt, minusWaitEndAnInt;
+    private boolean aBoolean = true;
+
+
 
 
     @Override
@@ -87,40 +90,52 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
         criteria.setAltitudeRequired(false);
         criteria.setBearingRequired(false);
 
-
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
 
         //Button Controller
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //Post Delay
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        //Get Time WaitStart
-                        Calendar calendar = Calendar.getInstance();
-                        hourWaitStartAnInt = calendar.get(Calendar.HOUR_OF_DAY);
-                        minusWaitStartInt = calendar.get(Calendar.MINUTE);
-                        Log.d("8novV3", "HrStarts ==>" + hourWaitStartAnInt);
-                        Log.d("8novV3", "MinStart ==>" + minusWaitStartInt);
+                if (aBoolean) {
+                    //ก่อนออกเดินทาง
 
 
-                    }   // run
-                }, 60000);
+                    //Post Delay
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
 
-                //Intent to PhotoActivity
-                Intent intent = new Intent(ServiceActivity.this, PhotoActivity.class);
-                startActivity(intent);
+                            //Get Time WaitStart
+                            Calendar calendar = Calendar.getInstance();
+                            hourWaitStartAnInt = calendar.get(Calendar.HOUR_OF_DAY);
+                            minusWaitStartInt = calendar.get(Calendar.MINUTE);
+                            Log.d("8novV3", "HrStarts ==>" + hourWaitStartAnInt);
+                            Log.d("8novV3", "MinStart ==>" + minusWaitStartInt);
 
+
+                        }   // run
+                    }, 60000);
+
+                    aBoolean = false;
+                    button.setText(getResources().getString(R.string.start));
+
+                    //Intent to PhotoActivity
+                    Intent intent = new Intent(ServiceActivity.this, PhotoActivity.class);
+                    intent.putExtra("id_job", jobString[0]);
+                    intent.putExtra("phone_customer", phoneString);
+                    startActivity(intent);
+
+                } else {
+                    //เริ่มเดินทาง
+
+                }   //if
+
+                Log.d("14novV2", "aBoolean ==> " + aBoolean);
 
 
             }   //onClick

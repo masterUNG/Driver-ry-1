@@ -5,5 +5,6 @@
     <string name="onside">ถึงที่รับ</string>
     <string name="meter">ค่าโดยสาร</string>
     <string name="confirm">ยืนยันคัวเลข</string>
+    <string name="start">อกเดินทาง</string>
 
 </resources>
