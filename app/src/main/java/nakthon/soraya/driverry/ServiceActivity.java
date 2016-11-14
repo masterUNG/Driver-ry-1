@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +29,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.vision.barcode.Barcode;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -103,24 +105,6 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
                 if (aBoolean) {
                     //ก่อนออกเดินทาง
 
-
-                    //Post Delay
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            //Get Time WaitStart
-                            Calendar calendar = Calendar.getInstance();
-                            hourWaitStartAnInt = calendar.get(Calendar.HOUR_OF_DAY);
-                            minusWaitStartInt = calendar.get(Calendar.MINUTE);
-                            Log.d("8novV3", "HrStarts ==>" + hourWaitStartAnInt);
-                            Log.d("8novV3", "MinStart ==>" + minusWaitStartInt);
-
-
-                        }   // run
-                    }, 60000);
-
                     aBoolean = false;
                     button.setText(getResources().getString(R.string.start));
 
@@ -143,6 +127,8 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
 
 
     }   //Main Method
+
+
 
 
     @Override
@@ -168,7 +154,57 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
         Log.d("8novV1", "Lat ==> " + latADouble);
         Log.d("8novV1", "lug ==> " + lngADouble);
 
+        Log.d("14novV2", "Resume Worked");
+
+        if (!aBoolean) {
+
+            Log.d("14novV2", "Min ==>" + 0);
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    //จุดที่เริ่มจับเวลา และส่ง SMS
+                    Log.d("14novV2", "Min ==>" + 60);
+                    myCounterTime();
+                    mySentSMS(phoneString);
+
+                }   // run
+            }, 3000);  // ค่อยกลับมาแก้ 60000
+
+        }   // if
+
+
     }   // onResume
+
+    private void mySentSMS(String phoneString) {
+
+        Log.d("14novV3", "phoneCustomer ==> " + phoneString);
+
+//        Uri uri = Uri.parse("smsto" + phoneString);
+//        Intent intent = new Intent(Intent.ACTION_SENDTO);
+//        intent.setData(uri);
+//        intent.putExtra("sms_body", "Test by MasterUNG");
+//        startActivity(intent);
+
+//        SmsManager smsManager = SmsManager.getDefault();
+//        smsManager.sendTextMessage(phoneString, null, "Test Master", null null);
+
+
+    }   //mySentSMS
+
+
+    private void myCounterTime() {
+
+        //Get Time WaitStart
+        Calendar calendar = Calendar.getInstance();
+        hourWaitStartAnInt = calendar.get(Calendar.HOUR_OF_DAY);
+        minusWaitStartInt = calendar.get(Calendar.MINUTE);
+        Log.d("14novV2", "HrStarts ==>" + hourWaitStartAnInt);
+        Log.d("14novV2", "MinStart ==>" + minusWaitStartInt);
+
+    }
 
     @Override
     protected void onStop() {

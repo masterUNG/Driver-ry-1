@@ -111,14 +111,9 @@ public class PhotoActivity extends AppCompatActivity {
 
     private void upLoadToServer() {
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                upLoadImage();
-                upDateString();
-            }
-        }, 3000);   // การหน่ยง ไว้กลับมาแก้เป็น 60000 หมายถึง 1 นาที
+        upLoadImage();
+        upDateString();
+
     }   // upload
 
     private void upDateString() {
