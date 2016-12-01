@@ -15,7 +15,9 @@ public class MyConstant {
             "Surname",
             "Address",
             "Phone",
-            "Id_car"};
+            "Id_car",
+            "Status"};
+
     private String[] jobStrings = new String[]{
             "id",
             "ID_passenger",

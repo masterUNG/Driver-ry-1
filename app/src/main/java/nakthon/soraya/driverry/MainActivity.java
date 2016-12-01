@@ -137,11 +137,12 @@ public class MainActivity extends AppCompatActivity {
                             "Password False", "Please Try Again Password False");
                     myAlert.myDialog();
                 } else {
+
                     // Password True
                     Toast.makeText(context,"Welcome" + loginStrings[3],
                             Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(MainActivity.this, ServiceActivity.class);
+                    Intent intent = new Intent(MainActivity.this, ConfirmJob.class);
                     intent.putExtra("Login", loginStrings);
                     startActivity(intent);
                     finish();
