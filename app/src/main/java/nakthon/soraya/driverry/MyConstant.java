@@ -41,6 +41,7 @@ public class MyConstant {
 
     private String urlEditJobString = "http://swiftcodingthai.com/ry/edit_job_where_id_ry_master.php";
 
+
     public String getUrlEditJobString() {
         return urlEditJobString;
     }
