@@ -1,6 +1,5 @@
 package nakthon.soraya.driverry;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Criteria;
@@ -9,11 +8,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.provider.MediaStore;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.telephony.SmsManager;
+import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,9 +24,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.vision.barcode.Barcode;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -128,8 +123,10 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
 
     }   //Main Method
 
-
-
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+    }
 
     @Override
     protected void onResume() {
@@ -424,7 +421,7 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
                //Create Marker Driver
                mMap.addMarker(new MarkerOptions()
                        .position(latLng)
-                       .icon(BitmapDescriptorFactory.fromResource(R.drawable.doremon48)));
+                       .icon(BitmapDescriptorFactory.fromResource(R.drawable.humen)));
 
 
 

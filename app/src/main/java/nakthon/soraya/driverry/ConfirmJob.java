@@ -6,9 +6,9 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,7 +17,7 @@ public class ConfirmJob extends AppCompatActivity {
     //Explicit
     private String[] loginString;
     private String[] tagStrings = new String[]{"1decV1"};
-    private Boolean aBoolean = true;
+    private Boolean aBoolean = true, restartABoolean = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,40 @@ public class ConfirmJob extends AppCompatActivity {
 
     }   // Main Method
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("2decV2", "onRestart Work");
+
+        if (restartABoolean) {
+            Log.d("2decV2", "onRestart Work in Condition");
+
+            //Edit Status Column to 2
+            aBoolean = true;
+            restartABoolean = false;
+
+            try {
+
+                EditStatusTo2 editStatusTo2 = new EditStatusTo2(ConfirmJob.this,
+                        loginString[0]);
+                editStatusTo2.execute();
+
+                Log.d("2decV2", "Result ==> " + editStatusTo2.get());
+
+            } catch (Exception e) {
+                Log.d("2decV2", "e onRestate ==> " + e.toString());
+            }
+
+
+        }
+
+    }   // onRestart
+
     private void checkJob() {
 
         //TodoIt
@@ -50,7 +84,7 @@ public class ConfirmJob extends AppCompatActivity {
             String s = myCheckJob.get();
             Log.d("2decV1", "JSON ที่อ่านได้ ==> " + s);
 
-            Log.d("2decV1", "Condition ที่เห็น ==> " + (!s. equals("null")));
+            Log.d("2decV1", "Condition ที่เห็น ==> " + (!s.equals("null")));
 
             if (!s.equals("null")) {
 
@@ -81,7 +115,10 @@ public class ConfirmJob extends AppCompatActivity {
 
         Log.d("2decV1", "Notification Work");
 
+        restartABoolean = true;
+
         Intent intent = new Intent(ConfirmJob.this, NotificationAlert.class);
+        intent.putExtra("Login", loginString);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(ConfirmJob.this,
                 (int) System.currentTimeMillis(), intent, 0);
@@ -90,6 +127,7 @@ public class ConfirmJob extends AppCompatActivity {
 
         Notification.Builder builder = new Notification.Builder(ConfirmJob.this
         );
+        builder.setTicker("Driver ry");
         builder.setContentTitle("งานมาใหม่ค่ะ");
         builder.setContentText("กรุณาคลิ๊กที่นี้");
         builder.setSmallIcon(R.drawable.doremon48);
@@ -101,7 +139,7 @@ public class ConfirmJob extends AppCompatActivity {
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
-        notificationManager.notify(0,notification);
+        notificationManager.notify(0, notification);
 
     }   //myNotification
 
