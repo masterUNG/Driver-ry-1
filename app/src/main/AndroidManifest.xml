@@ -50,7 +50,8 @@
         <activity
             android:name=".PhotoActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ConfirmJob"></activity>
+        <activity android:name=".ConfirmJob" />
+        <activity android:name=".NotificationAlert"></activity>
     </application>
 
 </manifest>

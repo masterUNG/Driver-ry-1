@@ -1,6 +1,11 @@
 package nakthon.soraya.driverry;
 
 import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -72,9 +77,29 @@ public class ConfirmJob extends AppCompatActivity {
 
     private void myNotification() {
 
-        Log.d("1decV3", "Notification Work");
+        Log.d("2decV1", "Notification Work");
 
-        Notification notification = new
+        Intent intent = new Intent(ConfirmJob.this, NotificationAlert.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(ConfirmJob.this,
+                (int) System.currentTimeMillis(), intent, 0);
+
+        Uri uri = RingtoneManager.getDefaultUri(Notification.DEFAULT_SOUND);
+
+        Notification.Builder builder = new Notification.Builder(ConfirmJob.this
+        );
+        builder.setContentTitle("งานมาใหม่ค่ะ");
+        builder.setContentText("กรุณาคลิ๊กที่นี้");
+        builder.setSmallIcon(R.drawable.doremon48);
+        builder.setSound(uri);
+        builder.setContentIntent(pendingIntent);
+
+        Notification notification = builder.build();
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+
+        notificationManager.notify(0,notification);
 
     }   //myNotification
 
