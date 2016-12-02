@@ -421,7 +421,7 @@ public class ServiceActivity extends FragmentActivity implements OnMapReadyCallb
                //Create Marker Driver
                mMap.addMarker(new MarkerOptions()
                        .position(latLng)
-                       .icon(BitmapDescriptorFactory.fromResource(R.drawable.doremon48)));
+                       .icon(BitmapDescriptorFactory.fromResource(R.drawable.humen)));
 
 
 
