@@ -18,11 +18,12 @@ public class MyCheckJob extends AsyncTask<Void, Void, String>{
 
     private Context context;
     private static final String urlPHP = "http://swiftcodingthai.com/ry/get_job_where_idDriver_Status.php";
-    private String idDriverString;
+    private String idDriverString, statusString;
 
-    public MyCheckJob(Context context, String idDriverString) {
+    public MyCheckJob(Context context, String idDriverString, String statusString) {
         this.context = context;
         this.idDriverString = idDriverString;
+        this.statusString = statusString;
     }
 
     @Override
@@ -34,6 +35,7 @@ public class MyCheckJob extends AsyncTask<Void, Void, String>{
             RequestBody requestBody = new FormEncodingBuilder()
                     .add("isAdd", "true")
                     .add("ID_driver", idDriverString)
+                    .add("Status", statusString)
                     .build();
             Request.Builder builder = new Request.Builder();
             Request request = builder.url(urlPHP).post(requestBody).build();
@@ -41,7 +43,7 @@ public class MyCheckJob extends AsyncTask<Void, Void, String>{
             return response.body().string();
 
         } catch (Exception e) {
-            Log.d("1DecV2", "e doIn ==> " + e.toString());
+            Log.d("1decV2", "e doIn ==> " + e.toString());
             return null;
         }
 

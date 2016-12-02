@@ -43,12 +43,14 @@ public class ConfirmJob extends AppCompatActivity {
         //TodoIt
         try {
 
-            MyCheckJob myCheckJob = new MyCheckJob(ConfirmJob.this, loginString[0]);
+            Log.d("2decV1", "idDriver ที่ส่งไป ==> " + loginString[0]);
+
+            MyCheckJob myCheckJob = new MyCheckJob(ConfirmJob.this, loginString[0], "0");
             myCheckJob.execute();
             String s = myCheckJob.get();
-            Log.d("1decV2", "s ==> " + s);
-            Log.d("1decV3", "s.leanth ==> " + s. length());
-            Log.d("1decV3", "Condition s ==> " + (!s. equals("null")));
+            Log.d("2decV1", "JSON ที่อ่านได้ ==> " + s);
+
+            Log.d("2decV1", "Condition ที่เห็น ==> " + (!s. equals("null")));
 
             if (!s.equals("null")) {
 
