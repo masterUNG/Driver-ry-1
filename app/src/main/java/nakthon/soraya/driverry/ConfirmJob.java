@@ -6,9 +6,9 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -60,11 +60,10 @@ public class ConfirmJob extends AppCompatActivity {
                 EditStatusTo2 editStatusTo2 = new EditStatusTo2(ConfirmJob.this,
                         loginString[0]);
                 editStatusTo2.execute();
-
-                Log.d("2decV2", "Result ==> " + editStatusTo2.get());
+                Log.d("2decV2", "Result ==>" + editStatusTo2.get());
 
             } catch (Exception e) {
-                Log.d("2decV2", "e onRestate ==> " + e.toString());
+                Log.d("2decV2", "e onRestate ==>" + e.toString());
             }
 
 
@@ -84,7 +83,7 @@ public class ConfirmJob extends AppCompatActivity {
             String s = myCheckJob.get();
             Log.d("2decV1", "JSON ที่อ่านได้ ==> " + s);
 
-            Log.d("2decV1", "Condition ที่เห็น ==> " + (!s.equals("null")));
+            Log.d("2decV1", "Condition ที่เห็น ==> " + (!s. equals("null")));
 
             if (!s.equals("null")) {
 
@@ -139,7 +138,7 @@ public class ConfirmJob extends AppCompatActivity {
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
-        notificationManager.notify(0, notification);
+        notificationManager.notify(0,notification);
 
     }   //myNotification
 

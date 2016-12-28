@@ -7,10 +7,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -105,7 +106,7 @@ public class PhotoActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-         super.onBackPressed();
+        super.onBackPressed();
     }
 
     private void upLoadToServer() {
